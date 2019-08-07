@@ -1,0 +1,43 @@
+<div class="wrapper">
+  <div class="container-fluid">
+
+
+    <div style="margin-top: 50px;" class="row">
+          <div class="col-xl-12 col-md-6">
+            <div class="card-head">
+                <h2 class="text-center">Business Directory</h2>
+                <p class="text-muted text-center"> Search through the archives </p>
+              </div>
+            <div class="card-body">
+              <form #searchForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="input-group">
+                  <input type="text" name="business" required #name="ngModel" [(ngModel)]="businessModel.business" [class.is-invalid]="name.invalid && name.touched" class="form-control is-invalid" placeholder="Search Business">
+
+                  <div class="input-group-append">
+                      <input [disabled]='searchForm.form.invalid' type=submit class="input-group-text btn btn-xl btn-dark" value="Search">
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    <ul style="margin-top: 100px;" class="row" *ngIf="directories">
+      <li class="col-xl-4 col-md-6" *ngFor="let directory of directories">
+          <div class="card directory-card" >
+              <div class="card-body">
+                  <div class="float-left mr-4">
+                  </div>
+                  <h5 class="text-primary font-18 mt-0 mb-1">{{ directory.business_name }}</h5>
+                  <p class="font-12 mb-2"><i class="ti-mobile">{{ directory.office_contact }}</i> </p>
+                  <p class="mb-4"><i class="ti-map"></i>{{ directory.office_address }} </p>
+                  <div class="clearfix"></div>
+
+                  <p class="text-justify"><i class="ti-briefcase"></i> {{ directory.business_description }} </p>
+              </div>
+
+          </div>
+      </li>
+    </ul>
+       <!--end row-->
+</div>
