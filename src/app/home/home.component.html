@@ -3,18 +3,16 @@
 
 
     <div style="margin-top: 50px;" class="row">
-          <div class="col-xl-12 col-md-6">
-            <div class="card-head">
+          <div class="col-xl-12 col-md-12">
                 <h2 class="text-center">Business Directory</h2>
                 <p class="text-muted text-center"> Search through the archives </p>
-              </div>
             <div class="card-body">
               <form #searchForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="input-group">
                   <input type="text" name="business" required #name="ngModel" [(ngModel)]="businessModel.business" [class.is-invalid]="name.invalid && name.touched" class="form-control is-invalid" placeholder="Search Business">
 
                   <div class="input-group-append">
-                      <input [disabled]='searchForm.form.invalid' type=submit class="input-group-text btn btn-xl btn-dark" value="Search">
+                      <button [disabled]='searchForm.form.invalid' type=submit class="input-group-text btn btn-xl btn-primary"> Search  <i style="margin-left: 5px;" class="fas fa-spinner fa-spin" *ngIf="loading"></i></button>
                   </div>
                 </div>
               </form>
@@ -22,22 +20,45 @@
         </div>
     </div>
 
-    <ul style="margin-top: 100px;" class="row" *ngIf="directories">
-      <li class="col-xl-4 col-md-6" *ngFor="let directory of directories">
+    <div style="margin-top: 100px;" class="row" *ngIf="searchResults; else directoriesResults">
+        <div class="col-xl-4 col-md-6" *ngFor="let searchResult of searchResults">
           <div class="card directory-card" >
               <div class="card-body">
                   <div class="float-left mr-4">
+                      <img src="{{ imageUrl }}{{ searchResult.image }}" alt="" class="img-fluid img-thumbnail thumb-lg">
                   </div>
-                  <h5 class="text-primary font-18 mt-0 mb-1">{{ directory.business_name }}</h5>
-                  <p class="font-12 mb-2"><i class="ti-mobile">{{ directory.office_contact }}</i> </p>
-                  <p class="mb-4"><i class="ti-map"></i>{{ directory.office_address }} </p>
+                  <h5 class="text-primary font-18 mt-0 mb-1">{{ searchResult.business_name }}</h5>
+                  <p class="font-12 mb-2"><i class="ti-mobile"></i> <strong>Tel.:</strong> {{ searchResult.office_contact }} </p>
+                  <p class="mb-4"><i class="ti-map"></i> <strong>Address:</strong> {{ searchResult.office_address }} </p>
                   <div class="clearfix"></div>
 
-                  <p class="text-justify"><i class="ti-briefcase"></i> {{ directory.business_description }} </p>
+                  <p class="text-justify"><i class="ti-briefcase"></i> <strong> Business Description:</strong> <br/> {{ searchResult.business_description }} </p>
               </div>
 
           </div>
-      </li>
-    </ul>
-       <!--end row-->
+        </div>
+    </div>
+
+
+    <!--end row-->
+    <ng-template #directoriesResults>
+      <div style="margin-top: 100px;" class="row" *ngIf="directories">
+          <div class="col-xl-4 col-md-6" *ngFor="let directory of directories">
+            <div class="card directory-card" >
+                <div class="card-body">
+                    <div class="float-left mr-4">
+                        <img src="{{ imageUrl }}{{ directory.image }}" alt="" class="img-fluid img-thumbnail thumb-lg">
+                    </div>
+                    <h5 class="text-primary font-18 mt-0 mb-1">{{ directory.business_name }}</h5>
+                    <p class="font-12 mb-2"><i class="ti-mobile"></i> <strong>Tel.:</strong> {{ directory.office_contact }} </p>
+                    <p class="mb-4"><i class="ti-map"></i> <strong>Address:</strong> {{ directory.office_address }} </p>
+                    <div class="clearfix"></div>
+
+                    <p class="text-justify"><i class="ti-briefcase"></i> <strong> Business Description:</strong>  <br/> {{ directory.business_description }} </p>
+                </div>
+
+            </div>
+          </div>
+        </div>
+    </ng-template>
 </div>

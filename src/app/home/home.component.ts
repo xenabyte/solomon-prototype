@@ -11,24 +11,39 @@ import { Business } from '../business';
 })
 export class HomeComponent implements OnInit {
 
+  imageUrl = 'http://167.99.57.223/admin/public/images/business_images/'; // 167.99.57.223/admin/public
 
-  businessModel = new Business('');
+  public businessModel = {
+    business: null
+  };
 
 
  // Setting service for the component
   directories: Object;
-  searchResult: Object;
+  searchResults: Object;
 
   constructor(private data: DataService) {
 
   }
 
+  public loading: Boolean;
+
+
   onSubmit() {
-    this.data.serarchDirectories(this.businessModel).subscribe(data => {
-        this.searchResult = data;
-        console.log(this.searchResult);
-      }
-    );
+    if (this.businessModel.business) {
+      this.loading = true;
+      console.log(this.businessModel.business);
+        this.data.searchDirectories(this.businessModel.business).subscribe(data => {
+          this.searchResults = data;
+          if (data !== '') {
+            this.loading = false;
+            this.businessModel.business = '';
+            console.log(this.searchResults);
+          }
+          this.loading = false;
+        }
+      );
+    }
   }
 
 
@@ -38,7 +53,6 @@ export class HomeComponent implements OnInit {
         console.log(this.directories);
       }
     );
-
   }
 
 }

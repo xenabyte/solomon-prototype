@@ -44,6 +44,6 @@ $('.peity-donut').each(function () {
 $('.peity-line').each(function() {
     $(this).peity("line", $(this).data());
 });
-    
-  
-    
+
+
+
